@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="./styles/main.css">
+  <title>Permalist</title>
+</head>
+<body>
+  <main>
+  <div class="box" id="heading">
+    <h1>listtitle</h1>
+  </div>
+
+  <div class="box">
+    <% for(let item of listItems){%>
+    <div class="item">
+     <form action="/delete" method="post">
+      <input type="checkbox" onchange="this.form.submit()" name="deleteItemId" value="<%= item.id %>">
+     </form>
+
+     <p id="title<%=item.id%>">
+      <%=item.title%>
+     </p>
+
+     <form action="/edit" class="edit" method="post">
+      <input type="hidden" name="updateItemId" value="<%=item.id%>">
+      <input type="text" id="input<%=item.id%>" name="updateItemTitle" value="<%= item.title %>" autocomplete="off"
+      autofocus="true" hidden="true">
+      <button id="done<%=item.id%>" class="edit" type="submit" hidden><img class="icon"
+        src="../public/assets/icons/check-solid.svg" alt="tick image"></button>
+     </form>
+     <button id="edit<%=item.id%>" class="edit" onclick="handler('<%=item.id%>')"><img class="icon"
+      src="/assets/icons/pencil-solid.svg" alt="pencil image"></button>
+    </div>
+  <% } %>
+  <form class="item" action="/add" method="post">
+    <input type="text" name="newItem" placeholder="New Item" autocomplete="off" autofocus="true" />
+    <button class="add" type="submit" name="list" value=<%=listTitle %> >+</button>
+  </form>
+  
+  </div>
+
+  
+  <script>
+    function handler(id) {
+      document.getElementById("title" + id).setAttribute("hidden", true)
+      document.getElementById("edit" + id).setAttribute("hidden", true)
+      document.getElementById("done" + id).removeAttribute("hidden")
+      document.getElementById("input" + id).removeAttribute("hidden")
+    }
+  </script>
+
+
+  </main>
+<footer>Copyright © <%= new Date().getFullYear() %>
+</footer>
+</body>
+
+</html>
